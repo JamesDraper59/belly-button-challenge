@@ -160,7 +160,7 @@ function demographic_info(sample) {
         let sample_id = meta_data.filter(result => result.id == sample);
 
         // Log the array of metadata objects after the have been filtered
-        console.log(value)
+        console.log(sample_id)
 
         // Get the first index from the array
         let sample_data = sample_id[0];
