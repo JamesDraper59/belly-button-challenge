@@ -17,13 +17,13 @@ const dropdown = d3.select("#selDataset");
 
 d3.json(url).then((data) => {
         
-    //Set a variable for the sample names
+    //set a variable for the sample names
     let names = data.names;
 
     //Add  samples to dropdown menu
     names.forEach((id) => {
 
-        //Log the value of id for each iteration of the loop
+        //log the id through loop
         console.log(id);
 
         dropdown.append("option")
@@ -31,10 +31,10 @@ d3.json(url).then((data) => {
         .property("value",id);
     });
 
-    //Set the first sample from the list
+    //store first sample of the list
     let first_sample = names[0];
 
-    //Log the value of first sample
+    //log first sample's values
     console.log(first_sample);
 
     //call functions for the plots
@@ -58,16 +58,16 @@ function bar_chart(sample) {
 
     d3.json(url).then((data) => {
 
-        // Retrieve all sample data
+        //retrieve sample data
         let sample_info = data.samples;
 
-        // Filter based on the value of the sample
+        //filter data by sample id
         let value = sample_info.filter(result => result.id == sample);
 
-        // Get the first index from the array
+        //store the first index
         let bar_data = value[0];
 
-        // Get the otu_ids, lables, and sample values
+        //store variables for plotting
         let otu_ids = bar_data.otu_ids;
         let otu_labels = bar_data.otu_labels;
         let sample_values = bar_data.sample_values;
@@ -104,7 +104,7 @@ function bubble_chart(sample) {
 
     d3.json(url).then((data) => {
         
-        
+        //get sample data 
         let sample_info = data.samples;
 
         //filter by sample value
@@ -113,7 +113,7 @@ function bubble_chart(sample) {
         //store first index
         let bubble_data = value[0];
 
-        // Get the otu_ids, lables, and sample values
+        //store variables for plotting
         let otu_ids = bubble_data.otu_ids;
         let otu_labels = bubble_data.otu_labels;
         let sample_values = bubble_data.sample_values;
@@ -159,21 +159,22 @@ function demographic_info(sample) {
         //filter based on the id of the sample
         let sample_id = meta_data.filter(result => result.id == sample);
 
-        // Log the array of metadata objects after the have been filtered
+        //log metadata in console
         console.log(sample_id)
 
-        // Get the first index from the array
+        //store first index
         let sample_data = sample_id[0];
  
-        // Clear out metadata
+        //select metadata for manipulation
         d3.select("#sample-metadata").html("");
  
-         // Use Object.entries to add each key/value pair to the panel
+         //add value entries into metadata graphic
         Object.entries(sample_data).forEach(([key,sample_id]) => {
  
-            // Log the individual key/value pairs as they are being appended to the metadata panel
+            //log value pairs into console
              console.log(key,sample_id);
- 
+            
+             //append metadata graphic with value pairs
             d3.select("#sample-metadata").append("h5").text(`${key}: ${sample_id}`);
         });
 
@@ -184,12 +185,14 @@ function demographic_info(sample) {
 //use function from index.html to change displays when sample is updated
 function optionChanged(value) { 
 
-    // Log the new value
+    //log new values to console
     console.log(value); 
 
-    // Call all functions 
+    //call all plot functions to re-plot 
     bar_chart(value);
+    
     bubble_chart(value);
+    
     demographic_info(value);
 };
 
